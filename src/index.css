@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ------------------------------------------------------------------
+   Single source of truth for the brand gradient (orange -> pink -> violet).
+   Change this one variable to re-theme the brand name, hero highlight
+   and every primary button across the whole site.
+------------------------------------------------------------------ */
+:root {
+  --brand-gradient: linear-gradient(120deg, #ff8a3d 0%, #ff4d8d 48%, #8b5cf6 100%);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    /* Offset anchor scrolling so the sticky navbar never covers a heading. */
+    scroll-padding-top: 5.5rem;
+  }
+
+  body {
+    @apply bg-base-200 text-brand-ink antialiased;
+    /* Guard against accidental horizontal overflow on small screens. */
+    overflow-x: hidden;
+  }
+
+  /* Respect users who prefer reduced motion. */
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+    }
+  }
+}
+
+@layer components {
+  /* Reusable gradient text (brand name, hero highlight, stats). */
+  .brand-gradient-text {
+    background-image: var(--brand-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+
+  /* Reusable gradient surface (primary buttons, chips, accents). */
+  .brand-gradient-bg {
+    background-image: var(--brand-gradient);
+  }
+
+  .brand-gradient-bg-hover:hover {
+    background-image: linear-gradient(120deg, #ff7a25 0%, #ff2f7b 48%, #7c4dff 100%);
+  }
+
+  /* Section heading pattern shared across sections. */
+  .section-eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-base-300 bg-white/70 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-secondary;
+  }
+
+  /* Consistent, accessible focus ring. */
+  .focus-ring {
+    @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-secondary focus-visible:ring-offset-2 focus-visible:ring-offset-base-200;
+  }
+
+  /* Card lift on hover/focus. */
+  .card-lift {
+    @apply transition duration-300 hover:-translate-y-1 hover:shadow-card;
+  }
+}
